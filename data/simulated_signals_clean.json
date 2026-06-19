@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "evidence_mode": "SIMULATED",
+    "description": "Clean signals \u2014 all flags clear, PROCEED expected.",
+    "asset": "BTC",
+    "timeframe": "1d"
+  },
+  "market": {
+    "price_usd": 55200.0,
+    "volume_24h_usd": 35150000000,
+    "volume_20d_avg_usd": 19000000000,
+    "volume_ratio": 1.85,
+    "high_20d_usd": 54800.0,
+    "close_above_20d_high": true,
+    "evidence_mode": "SIMULATED"
+  },
+  "derivatives": {
+    "funding_rate_8h_pct": 0.03,
+    "open_interest_usd": 18000000000,
+    "oi_change_24h_pct": 1.2,
+    "evidence_mode": "SIMULATED"
+  },
+  "onchain": {
+    "exchange_net_flow_btc_24h": -1200,
+    "direction": "OUTFLOW",
+    "evidence_mode": "SIMULATED"
+  },
+  "sentiment": {
+    "fear_greed_index": 58,
+    "label": "Greed",
+    "evidence_mode": "SIMULATED"
+  },
+  "kol_news": {
+    "mention_velocity_ratio": 1.1,
+    "baseline_7d": 1.0,
+    "evidence_mode": "SIMULATED"
+  }
+}

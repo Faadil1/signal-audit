@@ -1,0 +1,39 @@
+{
+  "_meta": {
+    "evidence_mode": "SIMULATED",
+    "description": "Deterministic fallback signals used when CMC API is unavailable.",
+    "asset": "BTC",
+    "timeframe": "1d",
+    "note": "All values are illustrative. Not real market data. Not investment advice."
+  },
+  "market": {
+    "price_usd": 67450.00,
+    "volume_24h_usd": 48200000000,
+    "volume_20d_avg_usd": 28900000000,
+    "volume_ratio": 1.668,
+    "high_20d_usd": 67100.00,
+    "close_above_20d_high": true,
+    "evidence_mode": "SIMULATED"
+  },
+  "derivatives": {
+    "funding_rate_8h_pct": 0.112,
+    "open_interest_usd": 32100000000,
+    "oi_change_24h_pct": 8.4,
+    "evidence_mode": "SIMULATED"
+  },
+  "onchain": {
+    "exchange_net_flow_btc_24h": 6800,
+    "direction": "INFLOW",
+    "evidence_mode": "SIMULATED"
+  },
+  "sentiment": {
+    "fear_greed_index": 79,
+    "label": "Greed",
+    "evidence_mode": "SIMULATED"
+  },
+  "kol_news": {
+    "mention_velocity_ratio": 2.1,
+    "baseline_7d": 1.0,
+    "evidence_mode": "SIMULATED"
+  }
+}

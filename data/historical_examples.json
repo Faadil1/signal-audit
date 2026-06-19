@@ -1,0 +1,44 @@
+{
+  "examples": [
+    {
+      "example_id": "BTC_2024-03_BREAKOUT",
+      "evidence_status": "ASSUMED",
+      "note": "Values consistent with publicly available market data from March 2024. Presented as illustrative reference, not verified backtest. Not investment advice.",
+      "context": "BTC printed above its 20-day high on March 5 2024 (daily close approx $65,800). Volume was approximately 1.8x the 20-day average — FLAG_001 clear.",
+      "signals_at_entry": {
+        "funding_rate_8h_pct": 0.12,
+        "exchange_net_flow_btc_24h": 8200,
+        "fear_greed_index": 82,
+        "volume_ratio": 1.8
+      },
+      "flags_triggered": [
+        {
+          "id": "FLAG_003",
+          "name": "FUNDING_RATE",
+          "severity": "CRITICAL",
+          "value": "+0.12%/8h",
+          "threshold": ">=0.10%"
+        },
+        {
+          "id": "FLAG_004",
+          "name": "ONCHAIN_FLOW",
+          "severity": "HIGH",
+          "value": "+8,200 BTC inflow",
+          "threshold": ">5,000 BTC inflow"
+        },
+        {
+          "id": "FLAG_005",
+          "name": "SENTIMENT_EXTREME",
+          "severity": "HIGH",
+          "value": "82 (Extreme Greed)",
+          "threshold": ">80"
+        }
+      ],
+      "no_trade_condition_active": "NT-3 — distribution pattern under elevated sentiment",
+      "retrospective_verdict": "ABORT",
+      "actual_outcome": "BTC peaked near $73,700 on approximately March 14 2024, then corrected to approximately $57,000 by mid-April 2024. A 5% stop-loss entry on March 5 would have initially shown profit before reversing.",
+      "interpretation": "SignalAudit's retrospective ABORT verdict was directionally consistent with the subsequent correction. This is presented as an illustration of flag logic — not a profit claim and not a prediction. The strategy would have required active stop management to avoid the drawdown.",
+      "disclaimer": "Evidence status ASSUMED. Historical prices sourced from public memory. No statistical backtest engine was run. This example illustrates how the flag system would have classified conditions, not what returns would have been achieved."
+    }
+  ]
+}
