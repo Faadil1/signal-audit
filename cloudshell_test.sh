@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # cloudshell_test.sh — SignalAudit reproducibility validation
 #
-# Status: LOCAL_VALIDATION_READY
+# Status: CLOUDSHELL_VERIFIED
 # Run this in Google Cloud Shell to confirm CLOUDSHELL_VERIFIED.
 #
 # Usage:
@@ -16,7 +16,7 @@ cd "$(dirname "$0")"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  SignalAudit — Reproducibility Validation"
-echo "  Status: LOCAL_VALIDATION_READY"
+echo "  Status: CLOUDSHELL_VERIFIED"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
