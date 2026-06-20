@@ -1,0 +1,523 @@
+/* ==========================================================================
+   SignalAudit — Standing Order Registry
+   Paper-first archive. No dark/blue app background anywhere on the page.
+   Static presentation layer only. Backend remains source of truth.
+   ========================================================================== */
+
+:root {
+  --archive-bg:   #D8CFBD;
+  --archive-bg-2: #CFC3AA;
+  --paper:        #EEE6D6;
+  --paper-shadow: #DCD2BB;
+  --paper-edge:   #C9BB9E;
+
+  --ink:          #1C1A16;
+  --ink-mid:      #3A3833;
+  --ink-soft:     #5C5848;
+
+  --graphite:     #3A3833;
+  --graphite-line:#B7AB8E;
+
+  --wax-red:      #7A2E27;
+  --wax-red-lt:   #9C4138;
+  --wax-red-dk:   #5A2018;
+
+  --ledger-green: #355E45;
+  --ledger-green-lt: #487A5C;
+
+  --brass:        #9C7A3C;
+  --brass-dk:     #7C5F2C;
+
+  --serif: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", serif;
+  --mono:  "SF Mono", "Courier New", Consolas, Menlo, monospace;
+  --sans:  -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  color: var(--ink-mid);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+
+  /* Warm archive-paper environment — replaces dark/blue app background entirely */
+  background-color: var(--archive-bg);
+  background-image:
+    radial-gradient(ellipse 900px 500px at 18% 0%, rgba(255,252,242,0.35), transparent 60%),
+    radial-gradient(ellipse 700px 600px at 100% 30%, rgba(120,105,70,0.10), transparent 65%),
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0px, rgba(0,0,0,0.012) 1px, transparent 1px, transparent 3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+a { color: inherit; }
+::selection { background: var(--brass); color: var(--paper); }
+
+/* ==========================================================================
+   REGISTRY HEADER — paper file-cover, not a dark navbar
+   ========================================================================== */
+
+.registry-header {
+  background: var(--paper);
+  border-bottom: 2px solid var(--graphite);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.04);
+}
+
+.registry-header-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 18px 5vw 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.registry-id { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+
+.registry-id-name {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.registry-id-sub {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brass-dk);
+}
+
+.registry-id-file {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+}
+
+.registry-id-track {
+  font-size: 10px;
+  color: var(--ink-soft);
+  opacity: 0.85;
+}
+
+.registry-stamps {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 9px 5vw 14px;
+  border-top: 1px solid var(--graphite-line);
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.stamp-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  padding: 4px 9px;
+  border: 1px solid var(--graphite-line);
+  border-radius: 2px;
+  color: var(--ink-mid);
+  background: rgba(255,255,255,0.3);
+}
+
+/* ==========================================================================
+   ARCHIVE — main page area, fully paper-environment
+   ========================================================================== */
+
+.archive { padding: 26px 5vw 48px; }
+
+.archive-inner {
+  max-width: 740px;
+  margin: 0 auto;
+}
+
+.archive-note {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(14px, 1.6vw, 16px);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 0 0 22px;
+}
+
+/* ----- Controls — registry stamp actions, not glossy SaaS buttons ----- */
+
+.controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.stamp-btn {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  padding: 11px 20px;
+  border-radius: 2px;
+  cursor: pointer;
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--graphite-line), 0 1px 0 rgba(0,0,0,0.08);
+  transition: transform 0.12s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.stamp-btn:active:not(:disabled) { transform: translateY(1px); }
+.stamp-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.stamp-btn:disabled { opacity: 0.45; cursor: default; }
+
+.stamp-btn-hold {
+  color: var(--wax-red-dk);
+  box-shadow: inset 0 0 0 1px var(--wax-red), 0 1px 0 rgba(0,0,0,0.08);
+}
+.stamp-btn-hold:hover:not(:disabled) {
+  background: #F3E8E2;
+  box-shadow: inset 0 0 0 1.5px var(--wax-red), 0 2px 4px rgba(122,46,39,0.15);
+}
+
+.stamp-btn-open {
+  color: var(--ledger-green);
+  box-shadow: inset 0 0 0 1px var(--ledger-green), 0 1px 0 rgba(0,0,0,0.08);
+}
+.stamp-btn-open:hover:not(:disabled) {
+  background: #E9F0E9;
+  box-shadow: inset 0 0 0 1.5px var(--ledger-green), 0 2px 4px rgba(53,94,69,0.15);
+}
+
+/* ----- Order sheet — paper-on-paper, stacked archive sheet feel ----- */
+
+.order-sheet {
+  position: relative;
+  border-radius: 2px;
+}
+
+/* Stacked-sheet illusion: two faint sheet edges behind the main one */
+.order-sheet::before,
+.order-sheet::after {
+  content: "";
+  position: absolute;
+  left: 6px; right: 6px;
+  height: 100%;
+  background: var(--paper-shadow);
+  border-radius: 2px;
+  z-index: 0;
+}
+.order-sheet::before { top: 6px; transform: rotate(-0.4deg); opacity: 0.8; }
+.order-sheet::after { top: 11px; transform: rotate(0.5deg); opacity: 0.55; }
+
+.order-sheet-tab {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 9px 22px;
+  background: var(--graphite);
+  color: #DCD4C0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  border-radius: 2px 2px 0 0;
+}
+
+.order-document {
+  position: relative;
+  z-index: 1;
+  background: var(--paper);
+  border: 1px solid var(--paper-edge);
+  border-top: none;
+  padding: 30px clamp(22px, 5vw, 48px) 26px;
+  box-shadow: 0 18px 36px -20px rgba(28,26,22,0.35);
+}
+
+.order-kicker {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 8px;
+}
+
+.order-hypothesis {
+  font-family: var(--serif);
+  font-size: clamp(16px, 2.1vw, 19px);
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0;
+  font-style: italic;
+}
+
+.order-rule {
+  height: 1px;
+  background:
+    repeating-linear-gradient(90deg, var(--paper-edge) 0px, var(--paper-edge) 5px, transparent 5px, transparent 9px);
+  margin: 20px 0;
+}
+
+.order-rule-thick {
+  height: 2px;
+  background: var(--graphite-line);
+  opacity: 0.5;
+}
+
+.order-authority {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* ----- Order fold — revealed after seal reacts ----- */
+
+.order-fold {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.85s cubic-bezier(0.22, 0.61, 0.36, 1),
+              opacity 0.65s ease 0.1s;
+}
+
+.order-fold.open {
+  max-height: 1400px;
+  opacity: 1;
+}
+
+.order-status {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(24px, 3.4vw, 32px);
+  margin: 0 0 10px;
+  letter-spacing: 0.01em;
+}
+
+.order-status.status-abort { color: var(--wax-red); }
+.order-status.status-proceed { color: var(--ledger-green); }
+
+.order-rationale {
+  font-family: var(--serif);
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink-mid);
+  margin: 0 0 20px;
+  max-width: 580px;
+}
+
+.order-section { margin-bottom: 18px; }
+.order-section:last-child { margin-bottom: 0; }
+
+.order-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 9px;
+  border-top: 1px solid var(--paper-edge);
+  padding-top: 12px;
+}
+
+.order-flags, .order-nt {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.order-flags li, .order-nt li {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink);
+  line-height: 1.5;
+  padding-left: 13px;
+  border-left: 3px solid var(--wax-red);
+}
+
+.order-terms {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 7px 16px;
+  margin: 0;
+}
+
+.order-terms dt {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding-top: 1px;
+}
+
+.order-terms dd {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+@media (max-width: 560px) {
+  .order-terms { grid-template-columns: 1fr; }
+  .order-terms dt { margin-top: 7px; }
+}
+
+/* ----- The seal — more tactile, embossed feel ----- */
+
+.seal {
+  position: absolute;
+  top: 24px;
+  right: clamp(18px, 5vw, 44px);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  background: radial-gradient(circle at 32% 28%, var(--wax-red-lt), var(--wax-red) 55%, var(--wax-red-dk) 100%);
+  box-shadow:
+    0 3px 0 rgba(0,0,0,0.18),
+    0 7px 14px -4px rgba(28,26,22,0.45),
+    inset 0 2px 3px rgba(255,255,255,0.22),
+    inset 0 -3px 5px rgba(0,0,0,0.25);
+  transition: transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+              background 0.8s ease,
+              box-shadow 0.8s ease;
+}
+
+.seal-ring {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.seal-mark {
+  position: relative;
+  z-index: 1;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 21px;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.9);
+  transform: rotate(-4deg);
+}
+
+.seal-crack {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  opacity: 0;
+  background:
+    linear-gradient(105deg, transparent 47%, rgba(0,0,0,0.42) 48.5%, transparent 50%),
+    linear-gradient(70deg, transparent 58%, rgba(0,0,0,0.3) 59.5%, transparent 61%);
+  transition: opacity 0.45s ease 0.3s;
+}
+
+.seal[data-state="idle"] { transform: scale(1) rotate(0deg); }
+
+/* abort: cracks visibly, stays whole — "the order holds" */
+.seal[data-state="abort"] {
+  transform: scale(1.05) rotate(-2deg);
+  box-shadow:
+    0 3px 0 rgba(0,0,0,0.22),
+    0 9px 18px -4px rgba(28,26,22,0.5),
+    inset 0 2px 3px rgba(255,255,255,0.15),
+    inset 0 -3px 5px rgba(0,0,0,0.3);
+}
+.seal[data-state="abort"] .seal-crack { opacity: 1; }
+
+/* proceed: breaks apart and lifts away — "order opens" */
+.seal[data-state="proceed"] {
+  transform: scale(0.65) rotate(10deg) translateX(44px) translateY(-32px);
+  opacity: 0;
+  background: radial-gradient(circle at 32% 28%, var(--ledger-green-lt), var(--ledger-green) 70%);
+}
+
+/* ----- Order sheet footer strip ----- */
+
+.order-sheet-footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 11px 22px;
+  background: var(--paper-shadow);
+  border: 1px solid var(--paper-edge);
+  border-top: 1px solid var(--graphite-line);
+}
+
+.order-filed {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+}
+
+/* ----- Disclosure ----- */
+
+.disclosure {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 20px auto 0;
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.registry-footer {
+  border-top: 2px solid var(--graphite);
+  padding: 26px 5vw 38px;
+  text-align: center;
+  background: var(--archive-bg-2);
+}
+
+.footer-line {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin: 0 0 9px;
+  max-width: 480px;
+  margin-inline: auto;
+}
+
+.footer-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--brass-dk);
+  text-decoration: none;
+  border-bottom: 1px solid var(--brass);
+  padding-bottom: 2px;
+}
+.footer-link:hover { color: var(--ink); }
