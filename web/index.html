@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SignalAudit — Mission Control</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="scan-grid" aria-hidden="true"></div>
+
+<!-- ===================== CONSOLE HEADER ===================== -->
+<header class="console-header">
+  <div class="console-header-inner">
+
+    <div class="console-id">
+      <span class="console-id-name">SignalAudit</span>
+      <span class="console-id-sep">/</span>
+      <span class="console-id-sub">Mission Control</span>
+    </div>
+
+    <div class="console-id-right">
+      <span class="console-id-track">Track 2 Strategy Skill</span>
+    </div>
+
+  </div>
+
+  <div class="protocol-strip">
+    <span class="protocol-item">SIMULATED MODE</span>
+    <span class="protocol-sep">·</span>
+    <span class="protocol-item">NO WALLET</span>
+    <span class="protocol-sep">·</span>
+    <span class="protocol-item">NO EXECUTION</span>
+    <span class="protocol-sep">·</span>
+    <span class="protocol-item">NO PROFIT CLAIMS</span>
+  </div>
+</header>
+
+<!-- ===================== MAIN CONSOLE ===================== -->
+<main class="console">
+  <div class="console-inner">
+
+    <!-- ── Sequence under review ── -->
+    <section class="panel panel-sequence">
+      <div class="panel-label">
+        <span class="panel-label-tag">SEQ-01</span>
+        Strategy sequence under review
+      </div>
+      <p class="sequence-text">
+        “Long BTC when the daily close prints above the 20-day high
+        on volume at least 1.5x the 20-day average.”
+      </p>
+    </section>
+
+    <!-- ── Controls ── -->
+    <div class="controls">
+      <button class="ctrl-btn ctrl-hold" id="btn-abort" type="button">
+        <span class="ctrl-readout">T-00:17</span>
+        <span class="ctrl-label">Run HOLD scenario</span>
+      </button>
+      <button class="ctrl-btn ctrl-clear" id="btn-proceed" type="button">
+        <span class="ctrl-readout">T-00:00</span>
+        <span class="ctrl-label">Run CLEAR scenario</span>
+      </button>
+    </div>
+
+    <!-- ── Countdown / status readout ── -->
+    <section class="panel panel-status" id="status-panel" data-state="idle">
+      <div class="status-grid">
+        <div class="status-clock-block">
+          <span class="status-clock-label">Countdown</span>
+          <span class="status-clock" id="status-clock">T-00:00</span>
+        </div>
+        <div class="status-verdict-block">
+          <span class="status-verdict-label">Status</span>
+          <span class="status-verdict" id="status-verdict">STANDBY</span>
+        </div>
+        <div class="status-authority-block">
+          <span class="status-authority-label">Execution authority</span>
+          <span class="status-authority" id="status-authority">NONE</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── GO / NO-GO checklist ── -->
+    <section class="panel panel-checklist">
+      <div class="panel-label">
+        <span class="panel-label-tag">SEQ-02</span>
+        Systems check
+      </div>
+
+      <div class="checklist" id="checklist">
+        <div class="check-row" data-row="market" data-flags="FLAG_001,FLAG_002">
+          <span class="check-tag">01</span>
+          <span class="check-name">Market data</span>
+          <span class="check-detail" id="detail-market">—</span>
+          <span class="check-state" id="state-market">STANDBY</span>
+        </div>
+        <div class="check-row" data-row="derivatives" data-flags="FLAG_003">
+          <span class="check-tag">02</span>
+          <span class="check-name">Derivatives</span>
+          <span class="check-detail" id="detail-derivatives">—</span>
+          <span class="check-state" id="state-derivatives">STANDBY</span>
+        </div>
+        <div class="check-row" data-row="onchain" data-flags="FLAG_004">
+          <span class="check-tag">03</span>
+          <span class="check-name">On-chain flow</span>
+          <span class="check-detail" id="detail-onchain">—</span>
+          <span class="check-state" id="state-onchain">STANDBY</span>
+        </div>
+        <div class="check-row" data-row="sentiment" data-flags="FLAG_005">
+          <span class="check-tag">04</span>
+          <span class="check-name">Sentiment</span>
+          <span class="check-detail" id="detail-sentiment">—</span>
+          <span class="check-state" id="state-sentiment">STANDBY</span>
+        </div>
+        <div class="check-row" data-row="narrative" data-flags="FLAG_006">
+          <span class="check-tag">05</span>
+          <span class="check-name">Narrative / KOL</span>
+          <span class="check-detail" id="detail-narrative">—</span>
+          <span class="check-state" id="state-narrative">STANDBY</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── No-trade conditions (ABORT only) ── -->
+    <section class="panel panel-nt" id="nt-panel" hidden>
+      <div class="panel-label">
+        <span class="panel-label-tag">SEQ-03</span>
+        No-trade conditions
+      </div>
+      <ul class="nt-list" id="nt-list"></ul>
+    </section>
+
+    <!-- ── Run plan issued ── -->
+    <section class="panel panel-plan" id="plan-panel" hidden>
+      <div class="panel-label">
+        <span class="panel-label-tag">SEQ-04</span>
+        Run plan issued
+      </div>
+      <dl class="plan-grid" id="plan-grid"></dl>
+    </section>
+
+    <!-- ── Evidence / disclosure ── -->
+    <section class="panel panel-evidence" id="evidence-panel" hidden>
+      <div class="evidence-row">
+        <span class="evidence-pill" id="pill-signal-channel">Signal channel: SIMULATED</span>
+        <span class="evidence-pill" id="pill-evidence-seal">Evidence seal: ASSUMED</span>
+      </div>
+      <p class="disclosure-text">
+        No investment advice. No live trading. No wallet execution. No profit claims.
+      </p>
+    </section>
+
+  </div>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="console-footer">
+  <p class="footer-line">SignalAudit is a Strategy Skill, not a trading bot. It does not predict — it checks systems before execution authority is granted.</p>
+  <a class="footer-link" href="https://github.com/Faadil1/signal-audit" target="_blank" rel="noopener">
+    github.com/Faadil1/signal-audit
+  </a>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
