@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SignalAudit — Standing Order Registry</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===================== REGISTRY HEADER — paper, not chrome ===================== -->
+<header class="registry-header">
+  <div class="registry-header-row">
+    <div class="registry-id">
+      <span class="registry-id-name">SIGNALAUDIT</span>
+      <span class="registry-id-sub">Standing Order Registry</span>
+    </div>
+    <div class="registry-id-file">
+      <span>FILE SA-01</span>
+      <span class="registry-id-track">Track 2 Strategy Skill</span>
+    </div>
+  </div>
+  <div class="registry-stamps">
+    <span class="stamp-tag">SIMULATED MODE</span>
+    <span class="stamp-tag">NO WALLET</span>
+    <span class="stamp-tag">NO EXECUTION</span>
+    <span class="stamp-tag">NO PROFIT CLAIMS</span>
+  </div>
+</header>
+
+<!-- ===================== ARCHIVE PAGE ===================== -->
+<main class="archive">
+  <div class="archive-inner">
+
+    <p class="archive-note">
+      This file records when a strategy must not proceed.
+      Standing orders are written before pressure arrives.
+    </p>
+
+    <!-- ── Controls — registry stamp actions ── -->
+    <div class="controls">
+      <button class="stamp-btn stamp-btn-hold" id="btn-abort" type="button">
+        TEST ORDER: HOLD
+      </button>
+      <button class="stamp-btn stamp-btn-open" id="btn-proceed" type="button">
+        TEST ORDER: OPEN
+      </button>
+    </div>
+
+    <!-- ── The standing order — paper-on-paper ── -->
+    <div class="order-sheet">
+
+      <div class="order-sheet-tab">
+        <span>STANDING ORDER</span>
+        <span id="hl-channel">SIGNAL CHANNEL: SIMULATED</span>
+      </div>
+
+      <div class="order-document" id="order-document">
+
+        <p class="order-kicker">Strategy under review</p>
+        <p class="order-hypothesis">
+          “Long BTC when the daily close prints above the 20-day high
+          on volume at least 1.5x the 20-day average.”
+        </p>
+
+        <div class="order-rule"></div>
+
+        <p class="order-kicker">Execution authority</p>
+        <p class="order-authority" id="order-authority">None. Not granted by default.</p>
+
+        <div class="order-fold" id="order-fold">
+
+          <div class="order-rule order-rule-thick"></div>
+
+          <p class="order-kicker" id="verdict-kicker">Verdict</p>
+          <div class="verdict-row">
+            <div class="seal" id="seal" data-state="idle" aria-hidden="true">
+              <div class="seal-ring"></div>
+              <div class="seal-crack" id="seal-crack"></div>
+              <span class="seal-mark">SA</span>
+            </div>
+            <div class="verdict-text-block">
+              <p class="order-status" id="order-status">—</p>
+              <p class="order-rationale" id="order-rationale"></p>
+            </div>
+          </div>
+
+          <div class="order-section" id="flags-section" hidden>
+            <p class="order-label">Signals cited</p>
+            <ul class="order-flags" id="order-flags"></ul>
+          </div>
+
+          <div class="order-section" id="nt-section" hidden>
+            <p class="order-label">No-trade conditions</p>
+            <ul class="order-nt" id="order-nt"></ul>
+          </div>
+
+          <div class="order-section">
+            <p class="order-label">Terms</p>
+            <dl class="order-terms" id="order-terms"></dl>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="order-sheet-footer">
+        <span class="stamp-tag" id="badge-evidence">Evidence seal: ASSUMED</span>
+        <span class="order-filed">Filed under simulated conditions.</span>
+      </div>
+
+    </div>
+
+    <!-- ── Decision Receipt — auditable record of the run ── -->
+    <div class="receipt" id="receipt" hidden>
+      <div class="receipt-tab">
+        <span>DECISION RECEIPT</span>
+        <button class="receipt-copy-btn" id="btn-copy-receipt" type="button">Copy Decision Receipt</button>
+      </div>
+      <div class="receipt-body">
+        <dl class="receipt-grid" id="receipt-grid"></dl>
+        <p class="receipt-disclaimer">
+          Not investment advice. No wallet. No execution.
+        </p>
+        <p class="receipt-copy-status" id="receipt-copy-status" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <!-- ── Judge Mode — verification record ── -->
+    <div class="judge-block">
+      <p class="judge-label">Verification record</p>
+      <ul class="judge-list">
+        <li><span class="judge-check">✓</span> 28 of 28 tests passing</li>
+        <li><span class="judge-check">✓</span> Reproduced in a clean Google Cloud Shell environment</li>
+        <li><span class="judge-check">✓</span> No wallet connection</li>
+        <li><span class="judge-check">✓</span> No live trading</li>
+        <li><span class="judge-check">✓</span> Every value labeled SIMULATED or ASSUMED</li>
+        <li><span class="judge-check">✓</span> A modified strategy spec is issued on every run</li>
+      </ul>
+    </div>
+
+    <p class="disclosure">
+      No investment advice. No live trading. No wallet execution. No profit claims.
+    </p>
+
+  </div>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="registry-footer">
+  <p class="footer-line">Strategy Skill, not a trading bot. No execution authority is granted by default.</p>
+  <a class="footer-link" href="https://github.com/Faadil1/signal-audit" target="_blank" rel="noopener">
+    github.com/Faadil1/signal-audit
+  </a>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
