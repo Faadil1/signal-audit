@@ -113,6 +113,18 @@ a { color: inherit; }
   opacity: 0.85;
 }
 
+.registry-category {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 0;
+  padding: 7px 5vw 0;
+  max-width: 920px;
+  margin-inline: auto;
+}
+
 .registry-stamps {
   display: flex;
   gap: 8px;
@@ -342,6 +354,14 @@ a { color: inherit; }
   max-width: 580px;
 }
 
+.order-caption {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  margin: 0 0 16px;
+}
+
 .order-section { margin-bottom: 15px; }
 .order-section:last-child { margin-bottom: 0; }
 
@@ -532,8 +552,16 @@ a { color: inherit; }
 
 /* ----- Decision Receipt — auditable record, same paper-on-paper system ----- */
 
+.receipt-intro {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: 16px 0 6px;
+}
+
 .receipt {
-  margin-top: 16px;
+  margin-top: 0;
   border-radius: 2px;
 }
 

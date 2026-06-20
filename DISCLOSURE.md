@@ -54,6 +54,8 @@ SignalAudit does not:
 
 The Skill is a read-only analysis tool.
 
+There is no code path in this Skill that can place an order.
+
 ---
 
 ### 5. Historical Reference Limitations

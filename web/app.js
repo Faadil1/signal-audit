@@ -70,6 +70,7 @@
   var orderFold = document.getElementById("order-fold");
   var orderStatus = document.getElementById("order-status");
   var orderRationale = document.getElementById("order-rationale");
+  var orderCaption = document.getElementById("order-caption");
 
   var flagsSection = document.getElementById("flags-section");
   var orderFlags = document.getElementById("order-flags");
@@ -81,6 +82,7 @@
   var badgeEvidence = document.getElementById("badge-evidence");
 
   var receipt = document.getElementById("receipt");
+  var receiptIntro = document.getElementById("receipt-intro");
   var receiptGrid = document.getElementById("receipt-grid");
   var btnCopyReceipt = document.getElementById("btn-copy-receipt");
   var receiptCopyStatus = document.getElementById("receipt-copy-status");
@@ -178,6 +180,7 @@
     ];
     lastReceiptText = lines.join("\n");
 
+    receiptIntro.hidden = false;
     receipt.hidden = false;
     receiptCopyStatus.textContent = "";
   }
@@ -235,6 +238,8 @@
     seal.setAttribute("data-state", "idle");
     orderFold.classList.remove("open");
     receipt.hidden = true;
+    receiptIntro.hidden = true;
+    orderCaption.hidden = true;
     orderAuthority.textContent = "None. Reviewing.";
 
     // Beat 1: the seal reacts.
@@ -257,6 +262,7 @@
       badgeEvidence.textContent = "Evidence seal: ASSUMED";
 
       orderFold.classList.add("open");
+      orderCaption.hidden = false;
       orderCue.classList.add("cue-hidden");
 
       window.setTimeout(function () {
