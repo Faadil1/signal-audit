@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SignalAudit — The Trading Gate</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="badges">
+      <span class="badge">BNB Hack — Track 2 Strategy Skills</span>
+      <span class="badge badge-amber">SIMULATED MVP</span>
+    </div>
+
+    <h1 class="title">SignalAudit</h1>
+    <p class="subtitle">The Trading Gate</p>
+
+    <p class="tagline">Before a strategy runs, the market must pass the audit.</p>
+
+    <p class="hero-note">
+      Most trading tools ask <em>what</em> to buy.<br>
+      SignalAudit asks whether the gate should open at all.
+    </p>
+
+    <a class="github-link" href="https://github.com/Faadil1/signal-audit" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                 -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                 .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                 -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+                 .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+                 .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+                 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      View source on GitHub
+    </a>
+  </div>
+
+  <div class="hero-gate-preview" aria-hidden="true">
+    <div class="mini-gate">
+      <div class="mini-gate-bar left"></div>
+      <div class="mini-gate-bar right"></div>
+      <div class="mini-gate-light"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== STORY ===================== -->
+<section class="story">
+  <div class="story-inner">
+
+    <div class="story-step">
+      <div class="step-marker">
+        <span class="step-icon">⌁</span>
+      </div>
+      <div class="step-content">
+        <span class="step-label">Checkpoint 01</span>
+        <h3>Strategy arrives</h3>
+        <p>A trader, or an autonomous agent, presents a strategy hypothesis at the gate. No execution has happened yet. No position is open.</p>
+      </div>
+    </div>
+
+    <div class="story-connector"></div>
+
+    <div class="story-step">
+      <div class="step-marker">
+        <span class="step-icon">◎</span>
+      </div>
+      <div class="step-content">
+        <span class="step-label">Checkpoint 02</span>
+        <h3>Signals are audited</h3>
+        <p>Five market signal categories are scanned — volume, derivatives, on-chain flow, sentiment, narrative velocity. Each one is checked against an explicit, named threshold.</p>
+      </div>
+    </div>
+
+    <div class="story-connector"></div>
+
+    <div class="story-step">
+      <div class="step-marker">
+        <span class="step-icon">⛊</span>
+      </div>
+      <div class="step-content">
+        <span class="step-label">Checkpoint 03</span>
+        <h3>Gate opens or closes</h3>
+        <p>The verdict is deterministic, not predictive. If the gate opens, the original strategy proceeds. If it closes, a modified, re-evaluable spec is issued instead.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== DEMO ===================== -->
+<section class="demo">
+  <div class="demo-inner">
+
+    <div class="demo-header">
+      <span class="step-label">Live Checkpoint Simulation</span>
+      <h2>Run the audit</h2>
+      <p class="demo-strategy-label">Strategy hypothesis under audit</p>
+      <p class="demo-strategy">
+        “Long BTC when the daily close prints above the 20-day high on volume
+        at least 1.5x the 20-day average.”
+      </p>
+    </div>
+
+    <div class="demo-controls">
+      <button class="btn btn-abort" id="btn-abort" type="button">
+        <span class="btn-dot dot-red"></span>
+        Run ABORT Scenario
+      </button>
+      <button class="btn btn-proceed" id="btn-proceed" type="button">
+        <span class="btn-dot dot-green"></span>
+        Run PROCEED Scenario
+      </button>
+    </div>
+
+    <!-- ===== GATE VISUAL ===== -->
+    <div class="gate-rig" id="gate-rig" data-state="idle">
+      <div class="gate-frame">
+        <div class="gate-bar gate-bar-left" id="bar-left"></div>
+        <div class="gate-bar gate-bar-right" id="bar-right"></div>
+        <div class="gate-scanline" id="gate-scanline"></div>
+        <div class="gate-status-readout">
+          <span class="gate-status-label">Gate status</span>
+          <span class="gate-status-value" id="gate-status-value">STANDBY</span>
+        </div>
+      </div>
+      <div class="gate-base"></div>
+    </div>
+
+    <!-- ===== RESULT PANEL ===== -->
+    <div class="result-panel" id="result-panel" hidden>
+
+      <div class="result-top">
+        <div class="result-verdict-block">
+          <span class="result-eyebrow">Verdict</span>
+          <span class="result-verdict" id="result-verdict">—</span>
+        </div>
+        <div class="result-regime-block">
+          <span class="result-eyebrow">Regime</span>
+          <span class="result-regime" id="result-regime">—</span>
+        </div>
+      </div>
+
+      <div class="result-section">
+        <h4 class="result-section-title">Triggered flags</h4>
+        <div class="flag-list" id="flag-list"></div>
+      </div>
+
+      <div class="result-section" id="nt-section" hidden>
+        <h4 class="result-section-title">No-trade conditions active</h4>
+        <ul class="nt-list" id="nt-list"></ul>
+      </div>
+
+      <div class="result-section">
+        <h4 class="result-section-title">Modified strategy spec</h4>
+        <dl class="spec-grid" id="spec-grid"></dl>
+      </div>
+
+      <div class="evidence-strip">
+        <span class="evidence-pill" id="pill-evidence-mode">Evidence mode: SIMULATED</span>
+        <span class="evidence-pill" id="pill-historical">Historical reference: ASSUMED</span>
+      </div>
+
+      <div class="disclosure-block">
+        <p>No investment advice. No live trading. No wallet execution. No profit claims.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <p class="footer-line">SignalAudit is a Strategy Skill, not a trading bot.</p>
+  <a class="footer-link" href="https://github.com/Faadil1/signal-audit" target="_blank" rel="noopener">
+    github.com/Faadil1/signal-audit
+  </a>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
