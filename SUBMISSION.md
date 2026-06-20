@@ -1,14 +1,21 @@
 # SignalAudit — Submission
 
+> Most Strategy Skills tell you what to trade. SignalAudit tells you whether the strategy is allowed to proceed.
+
 **BNB Hack: AI Trading Agent Edition | Track 2: Strategy Skills**
 
 ---
 
 ## Project summary
 
-SignalAudit is a CMC Skill that audits a trading strategy hypothesis against
-current market signals and returns a structured verdict — PROCEED, REDUCE_RISK,
-or ABORT — along with a complete, backtestable modified strategy spec.
+SignalAudit is a **risk-audit Skill** for CMC Agent Hub. It checks whether
+a strategy hypothesis is safe to run under current market conditions and
+returns a structured verdict — PROCEED, REDUCE_RISK, or ABORT.
+
+**The verdict is not the output. The output is a modified, backtestable
+strategy spec, issued on every single run regardless of verdict.** That
+spec — not the verdict label — is the artifact Track 2 asks a Strategy
+Skill to produce, and it is what a reviewer should check for first.
 
 It does not generate trade ideas. It checks whether a strategy that already
 exists is safe to run under current conditions, and issues a written record
@@ -49,6 +56,16 @@ granted by default.
 The verdict logic is rule-based, not probabilistic. Every threshold is
 stated in `SKILL.md` and implemented in `skill/flag_engine.py` and
 `skill/verdict_engine.py`. Nothing is a black box.
+
+**Where each signal category is implemented:**
+
+| Signal category | Code path |
+|---|---|
+| Market / regime signals | `skill/regime_classifier.py` |
+| Derivatives / funding risk | `skill/flag_engine.py` |
+| On-chain flow risk | `skill/flag_engine.py` |
+| Verdict and no-trade conditions | `skill/verdict_engine.py` |
+| Modified strategy spec | `skill/modified_spec.py` |
 
 ---
 
@@ -122,6 +139,26 @@ open web/index.html
 - No live trading anywhere in the codebase
 - Every data-derived value carries an explicit `SIMULATED`, `ASSUMED`, or
   `LIVE_CMC` label
+
+---
+
+## Demo video checklist
+
+These are recording/script notes, not product changes.
+
+- **Lead with the proof, not the metaphor.** Open the video on the Judge
+  Mode verification list (28/28 tests, Cloud Shell reproduced, no wallet,
+  no live trading) before walking through the Standing Order interface.
+  Judges deciding whether a submission is real engineering or a demo
+  shell should see the proof in the first seconds, not after a metaphor
+  they may not yet trust.
+- **State the track explicitly, once, on camera.** Say plainly: "This is
+  Track 2, not Track 1. No wallet, no live trading, no execution." Do not
+  rely on the UI alone to make this distinction — say it.
+- **Review the recorded video at compressed/upload resolution before
+  finalizing.** The seal-crack visual on the standing order is the
+  signature moment; confirm it still reads clearly after the video has
+  been re-encoded for upload, not only in the original local recording.
 
 ---
 
